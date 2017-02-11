@@ -1,4 +1,4 @@
-# php-safe-json
+# PHP Safe JSON
 
 [![Tests](https://github.com/philiprehberger/php-safe-json/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-safe-json/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-safe-json.svg)](https://packagist.org/packages/philiprehberger/php-safe-json)
@@ -126,7 +126,7 @@ All key-based methods support dot notation for nested access (e.g., `user.addres
 | `JsonEncodeException` | Failed to encode data |
 | `JsonKeyException` | Missing key or type mismatch |
 
-## Testing
+## Development
 
 ```bash
 composer install
@@ -137,4 +137,4 @@ vendor/bin/phpstan analyse
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT
