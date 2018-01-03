@@ -4,7 +4,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-safe-json.svg)](https://packagist.org/packages/philiprehberger/php-safe-json)
 [![License](https://img.shields.io/packagist/l/philiprehberger/php-safe-json.svg)](https://packagist.org/packages/philiprehberger/php-safe-json)
 
-Safe JSON parsing with exceptions and typed getters for PHP.
+Safe JSON parsing with exceptions, schema validation, and typed getters.
 
 ## Requirements
 
