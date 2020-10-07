@@ -208,4 +208,111 @@ class SafeJsonTest extends TestCase
 
         $this->assertSame('{"key":"value"}', (string) $obj);
     }
+
+    public function test_string_or_null_returns_value(): void
+    {
+        $obj = SafeJson::decode('{"name":"Alice"}');
+
+        $this->assertSame('Alice', $obj->stringOrNull('name'));
+    }
+
+    public function test_string_or_null_returns_null_for_missing_key(): void
+    {
+        $obj = SafeJson::decode('{"name":"Alice"}');
+
+        $this->assertNull($obj->stringOrNull('missing'));
+    }
+
+    public function test_string_or_null_returns_null_for_wrong_type(): void
+    {
+        $obj = SafeJson::decode('{"name":123}');
+
+        $this->assertNull($obj->stringOrNull('name'));
+    }
+
+    public function test_int_or_null_returns_value(): void
+    {
+        $obj = SafeJson::decode('{"count":42}');
+
+        $this->assertSame(42, $obj->intOrNull('count'));
+    }
+
+    public function test_int_or_null_returns_null_for_missing_key(): void
+    {
+        $obj = SafeJson::decode('{"count":42}');
+
+        $this->assertNull($obj->intOrNull('missing'));
+    }
+
+    public function test_int_or_null_returns_null_for_wrong_type(): void
+    {
+        $obj = SafeJson::decode('{"count":"not a number"}');
+
+        $this->assertNull($obj->intOrNull('count'));
+    }
+
+    public function test_float_or_null_returns_value(): void
+    {
+        $obj = SafeJson::decode('{"price":9.99}');
+
+        $this->assertSame(9.99, $obj->floatOrNull('price'));
+    }
+
+    public function test_float_or_null_returns_null_for_missing_key(): void
+    {
+        $obj = SafeJson::decode('{"price":9.99}');
+
+        $this->assertNull($obj->floatOrNull('missing'));
+    }
+
+    public function test_float_or_null_returns_null_for_wrong_type(): void
+    {
+        $obj = SafeJson::decode('{"price":"expensive"}');
+
+        $this->assertNull($obj->floatOrNull('price'));
+    }
+
+    public function test_bool_or_null_returns_value(): void
+    {
+        $obj = SafeJson::decode('{"active":true}');
+
+        $this->assertTrue($obj->boolOrNull('active'));
+    }
+
+    public function test_bool_or_null_returns_null_for_missing_key(): void
+    {
+        $obj = SafeJson::decode('{"active":true}');
+
+        $this->assertNull($obj->boolOrNull('missing'));
+    }
+
+    public function test_bool_or_null_returns_null_for_wrong_type(): void
+    {
+        $obj = SafeJson::decode('{"active":"yes"}');
+
+        $this->assertNull($obj->boolOrNull('active'));
+    }
+
+    public function test_merge_with_overlapping_keys(): void
+    {
+        $a = SafeJson::decode('{"name":"Alice","age":30}');
+        $b = SafeJson::decode('{"name":"Bob","email":"bob@example.com"}');
+
+        $merged = $a->merge($b);
+
+        $this->assertSame('Bob', $merged->string('name'));
+        $this->assertSame(30, $merged->int('age'));
+        $this->assertSame('bob@example.com', $merged->string('email'));
+    }
+
+    public function test_merge_with_non_overlapping_keys(): void
+    {
+        $a = SafeJson::decode('{"name":"Alice"}');
+        $b = SafeJson::decode('{"age":25}');
+
+        $merged = $a->merge($b);
+
+        $this->assertSame('Alice', $merged->string('name'));
+        $this->assertSame(25, $merged->int('age'));
+    }
 }

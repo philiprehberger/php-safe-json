@@ -1,8 +1,14 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to `php-safe-json` will be documented in this file.
 
 ## [Unreleased]
+
+## [1.1.0] - 2026-03-22
+
+### Added
+- Nullable accessor methods: `stringOrNull()`, `intOrNull()`, `floatOrNull()`, `boolOrNull()`
+- `merge()` method for combining two JsonObject instances
 
 ## [1.0.2] - 2026-03-17
 
