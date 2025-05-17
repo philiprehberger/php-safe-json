@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhilipRehberger\SafeJson;
 
+use Generator;
 use PhilipRehberger\SafeJson\Exceptions\JsonDecodeException;
 use PhilipRehberger\SafeJson\Exceptions\JsonEncodeException;
 
@@ -58,5 +59,37 @@ class SafeJson
         } catch (\JsonException|JsonEncodeException) {
             return null;
         }
+    }
+
+    /**
+     * Compare two JSON strings and return a list of differences.
+     *
+     * Each difference includes an operation ('add', 'remove', 'replace'),
+     * a path, and the relevant values.
+     *
+     * @return array<array{op: string, path: string, value?: mixed, old?: mixed}>
+     *
+     * @throws JsonDecodeException when either JSON string is invalid
+     */
+    public static function diff(string $jsonA, string $jsonB): array
+    {
+        $a = self::decode($jsonA)->toArray();
+        $b = self::decode($jsonB)->toArray();
+
+        return JsonDiff::diff($a, $b);
+    }
+
+    /**
+     * Stream-decode a JSON file containing a top-level array, yielding one element at a time.
+     *
+     * Memory efficient for large files since only one element is held in memory at a time.
+     *
+     * @return Generator<int, mixed>
+     *
+     * @throws JsonDecodeException when the file cannot be opened or contains invalid JSON
+     */
+    public static function decodeStream(string $filePath): Generator
+    {
+        return StreamDecoder::decodeStream($filePath);
     }
 }

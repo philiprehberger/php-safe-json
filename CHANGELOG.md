@@ -4,6 +4,13 @@ All notable changes to `php-safe-json` will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-04-01
+
+### Added
+- JSON Path querying via `JsonObject::query()` and `JsonPath::query()`
+- JSON diffing via `SafeJson::diff()` with add/remove/replace operations
+- Streaming JSON array decode via `SafeJson::decodeStream()` for large files
+
 ## [1.1.1] - 2026-03-31
 
 ### Changed

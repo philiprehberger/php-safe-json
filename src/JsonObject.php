@@ -233,6 +233,16 @@ class JsonObject implements \JsonSerializable, \Stringable
     }
 
     /**
+     * Query the object data using a JSON Path expression.
+     *
+     * @return array<mixed>
+     */
+    public function query(string $path): array
+    {
+        return JsonPath::query($this->data, $path);
+    }
+
+    /**
      * Resolve a dot-notation key path.
      *
      * @throws JsonKeyException when key is missing
