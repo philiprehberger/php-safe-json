@@ -1,7 +1,9 @@
 {
     "name": "philiprehberger/php-safe-json",
     "description": "Safe JSON parsing with exceptions, schema validation, and typed getters",
+    "type": "library",
     "keywords": ["json", "safe", "parse", "typed", "decode", "encode"],
+    "homepage": "https://github.com/philiprehberger/php-safe-json",
     "license": "MIT",
     "authors": [
         {
@@ -29,6 +31,11 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "lint": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
