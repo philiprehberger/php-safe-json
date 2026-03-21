@@ -8,7 +8,7 @@ Safe JSON parsing with exceptions, schema validation, and typed getters.
 
 ## Requirements
 
-- PHP ^8.2
+- PHP 8.2+
 
 ## Installation
 
