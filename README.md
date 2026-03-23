@@ -69,6 +69,29 @@ $obj->get('missing', 'default'); // "default"
 $obj->get('missing');           // throws JsonKeyException
 ```
 
+### Nullable Accessors
+
+```php
+$obj = SafeJson::decode('{"name":"Alice","age":30}');
+
+$obj->stringOrNull('name');    // "Alice"
+$obj->stringOrNull('missing'); // null
+$obj->intOrNull('name');       // null (wrong type)
+$obj->intOrNull('age');        // 30
+```
+
+### Merging Objects
+
+```php
+$a = SafeJson::decode('{"name":"Alice","age":30}');
+$b = SafeJson::decode('{"name":"Bob","email":"bob@example.com"}');
+
+$merged = $a->merge($b);
+$merged->string('name');  // "Bob" (overridden)
+$merged->int('age');      // 30 (kept from $a)
+$merged->string('email'); // "bob@example.com" (added from $b)
+```
+
 ### Encoding
 
 ```php
@@ -109,10 +132,15 @@ json_encode($obj); // '{"key":"value"}' (JsonSerializable)
 | `int(string $key): int` | Get integer value by key |
 | `float(string $key): float` | Get float value by key (accepts integers) |
 | `bool(string $key): bool` | Get boolean value by key |
+| `stringOrNull(string $key): ?string` | Get string value or null if missing/wrong type |
+| `intOrNull(string $key): ?int` | Get integer value or null if missing/wrong type |
+| `floatOrNull(string $key): ?float` | Get float value or null if missing/wrong type |
+| `boolOrNull(string $key): ?bool` | Get boolean value or null if missing/wrong type |
 | `array(string $key): array` | Get array value by key |
 | `object(string $key): JsonObject` | Get nested JsonObject by key |
 | `get(string $key, mixed $default = null): mixed` | Get value without type enforcement |
 | `has(string $key): bool` | Check if key exists |
+| `merge(self $other): self` | Merge with another JsonObject (other overrides on conflict) |
 | `toArray(): array` | Return underlying array |
 | `toJson(int $flags = 0): string` | Return JSON string |
 

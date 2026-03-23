@@ -78,6 +78,63 @@ class JsonObject implements \JsonSerializable, \Stringable
     }
 
     /**
+     * Get a string value or null if missing/wrong type.
+     */
+    public function stringOrNull(string $key): ?string
+    {
+        try {
+            return $this->string($key);
+        } catch (JsonKeyException) {
+            return null;
+        }
+    }
+
+    /**
+     * Get an integer value or null if missing/wrong type.
+     */
+    public function intOrNull(string $key): ?int
+    {
+        try {
+            return $this->int($key);
+        } catch (JsonKeyException) {
+            return null;
+        }
+    }
+
+    /**
+     * Get a float value or null if missing/wrong type.
+     */
+    public function floatOrNull(string $key): ?float
+    {
+        try {
+            return $this->float($key);
+        } catch (JsonKeyException) {
+            return null;
+        }
+    }
+
+    /**
+     * Get a boolean value or null if missing/wrong type.
+     */
+    public function boolOrNull(string $key): ?bool
+    {
+        try {
+            return $this->bool($key);
+        } catch (JsonKeyException) {
+            return null;
+        }
+    }
+
+    /**
+     * Merge with another JsonObject, returning a new instance.
+     * Values from the other object override on key conflict.
+     */
+    public function merge(self $other): self
+    {
+        return new self(array_merge($this->data, $other->data));
+    }
+
+    /**
      * Get an array value by key.
      *
      *
