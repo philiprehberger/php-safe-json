@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/php-safe-json/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-safe-json/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-safe-json.svg)](https://packagist.org/packages/philiprehberger/php-safe-json)
 [![License](https://img.shields.io/github/license/philiprehberger/php-safe-json)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Safe JSON parsing with exceptions, schema validation, and typed getters.
 
