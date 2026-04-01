@@ -92,6 +92,43 @@ $merged->int('age');      // 30 (kept from $a)
 $merged->string('email'); // "bob@example.com" (added from $b)
 ```
 
+### JSON Path Querying
+
+```php
+$obj = SafeJson::decode('{"users":[{"name":"Alice","age":30},{"name":"Bob","age":25}]}');
+
+$obj->query('$.users[*].name');       // ['Alice', 'Bob']
+$obj->query('$.users[0].age');        // [30]
+$obj->query('$..name');               // ['Alice', 'Bob'] (recursive descent)
+$obj->query('$.users[0:1]');          // [['name' => 'Alice', 'age' => 30]]
+```
+
+Supported syntax: `$` (root), `.key` (child), `[0]` (index), `[*]` (wildcard), `..key` (recursive descent), `[0:3]` (slice), `['key']` (bracket notation).
+
+### JSON Diffing
+
+```php
+$changes = SafeJson::diff(
+    '{"name":"Alice","age":30}',
+    '{"name":"Bob","age":30,"email":"bob@example.com"}'
+);
+
+// [
+//   ['op' => 'replace', 'path' => 'name', 'value' => 'Bob', 'old' => 'Alice'],
+//   ['op' => 'add', 'path' => 'email', 'value' => 'bob@example.com'],
+// ]
+```
+
+### Streaming Decode
+
+```php
+// Memory-efficient decoding of large JSON arrays
+foreach (SafeJson::decodeStream('/path/to/large-file.json') as $element) {
+    // Each element is decoded one at a time
+    // Only one element is held in memory
+}
+```
+
 ### Encoding
 
 ```php
@@ -123,6 +160,8 @@ json_encode($obj); // '{"key":"value"}' (JsonSerializable)
 | `tryDecode(string $json): ?JsonObject` | Decode JSON string, returns `null` on failure |
 | `encode(mixed $data, int $flags = 0): string` | Encode to JSON string, throws on failure |
 | `tryEncode(mixed $data, int $flags = 0): ?string` | Encode to JSON string, returns `null` on failure |
+| `diff(string $jsonA, string $jsonB): array` | Compare two JSON strings and return differences |
+| `decodeStream(string $filePath): Generator` | Stream-decode a JSON array file, yielding elements one at a time |
 
 ### `JsonObject`
 
@@ -141,10 +180,29 @@ json_encode($obj); // '{"key":"value"}' (JsonSerializable)
 | `get(string $key, mixed $default = null): mixed` | Get value without type enforcement |
 | `has(string $key): bool` | Check if key exists |
 | `merge(self $other): self` | Merge with another JsonObject (other overrides on conflict) |
+| `query(string $path): array` | Query data using JSON Path expression |
 | `toArray(): array` | Return underlying array |
 | `toJson(int $flags = 0): string` | Return JSON string |
 
 All key-based methods support dot notation for nested access (e.g., `user.address.city`).
+
+### `JsonPath`
+
+| Method | Description |
+|---|---|
+| `query(array $data, string $path): array` | Query data using JSON Path expression |
+
+### `JsonDiff`
+
+| Method | Description |
+|---|---|
+| `diff(mixed $a, mixed $b, string $path = ''): array` | Compare two values and return list of differences |
+
+### `StreamDecoder`
+
+| Method | Description |
+|---|---|
+| `decodeStream(string $filePath): Generator` | Stream-decode a JSON array file element by element |
 
 ### Exceptions
 
